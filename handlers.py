@@ -6,9 +6,14 @@ from config import TARGET_CHAT_ID
 
 logger = logging.getLogger(__name__)
 
+
 async def forward_message(update: Update, context: CallbackContext):
     """Пересылает сообщение в целевой чат, если оно от другого источника"""
     if update.effective_chat.id == TARGET_CHAT_ID:
+        return
+
+    # Проверяем, есть ли сообщение
+    if not update.message:
         return
 
     try:

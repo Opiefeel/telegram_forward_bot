@@ -7,14 +7,13 @@ from handlers import forward_message, handle_migration, error_handler
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def main():
     """Запускает бота в режиме polling"""
     app = Application.builder().token(TOKEN).build()
 
-    # Добавляем обработчики
-    app.add_handler(MessageHandler(filters.ChatType.GROUPS, forward_message))
-    app.add_handler(MessageHandler(filters.ChatType.PRIVATE, forward_message))
-    app.add_handler(MessageHandler(filters.ChatType.CHANNEL, forward_message))
+    # Добавляем обработчики для всех типов сообщений
+    app.add_handler(MessageHandler(filters.ALL, forward_message))
 
     # Обработчик миграции чатов
     app.add_handler(MessageHandler(filters.StatusUpdate.MIGRATE, handle_migration))
